@@ -3,13 +3,23 @@ import style from '../style/Products.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import API from '../context/Api.context';
+
 
 
 const Product = () => {
+    const time = new Date();
+    const api = new API();
     const [showCartInfo, setShowCartInfo] = useState(false)
     const handleShowInfo = () => {
         setShowCartInfo(!showCartInfo)
     }
+    useEffect(() => {
+        api.getTotalbyMonth(time.getFullYear(),time.getMonth()).then((data) => {
+           console.log(data.data)
+        })
+        //api.createNewCart('1','1000','1','1');
+    }, [window.location.href])
     return (
         <div className="main">
             <div className="wrapper">
@@ -214,6 +224,7 @@ const Product = () => {
                 }
             </div>
         </div>
+        
     )
 }
 

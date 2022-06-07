@@ -10,7 +10,7 @@ function App() {
   return (
     <div style={{"position": "relative"}}>
       <LeftSideBar />
-      <Orders />
+      <Products />
     </div>
   );
 }
