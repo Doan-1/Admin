@@ -22,4 +22,10 @@ export default class API {
         let a = await axios.get(`http://localhost:4001/cart/status/count/`+id) 
         return a.data;
     }
+    cloudinaryUpload = (fileToUpload) => {
+        return axios.post('http://localhost:4001/product/cloudinary-upload', fileToUpload)
+        .then(res =>console.log( res.data))
+        .catch(err => console.log(err))
+    }
+    
 }

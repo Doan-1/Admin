@@ -14,8 +14,13 @@ const Product = () => {
     const handleShowInfo = () => {
         setShowCartInfo(!showCartInfo)
     }
+    const handleFileUpload = (e) => {
+        const uploadData = new FormData();
+        uploadData.append("file", e.target.files[0], "file");
+        api.cloudinaryUpload(uploadData)
+      }
     useEffect(() => {
-        api.getTotalbyMonth(time.getFullYear(),time.getMonth()).then((data) => {
+        api.getTotalbyMonth(time.getFullYear(),time.getMonth()+1).then((data) => {
            console.log(data.data)
         })
         //api.createNewCart('1','1000','1','1');
@@ -201,6 +206,10 @@ const Product = () => {
                                             <input type="text" style={{"margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none"}} />
                                         </div>
                                     </div>
+                                    <input
+          type="file"
+          onChange={(e) => handleFileUpload(e)}
+        />
                                     <div style={{"marginBottom": "16px", "display":"flex"}} >
                                         <label htmlFor="" style={{"fontSize": "14px"}}>Thumbnail:</label>
                                         <input type="text" style={{"margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none"}} />
