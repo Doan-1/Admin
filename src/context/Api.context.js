@@ -6,14 +6,20 @@ export default class API {
         let a = await axios.get(`http://localhost:4001/salesstatus/total/`+yea+`/`+mon) 
         return a.data;
     }
-    async createNewCart(iduser, tot, add, phon)
-    {
-        let a = await axios.post(`http://localhost:4001/cart/create`,{
-            id_user: iduser,
-            total: tot,
-            address: add,
-            phone: phon
-        })
-        return a;
+    async getCartbyStatus(id) {
+        let a = await axios.get(`http://localhost:4001/cart/status/`+id) 
+        return a.data;
+    }
+    async getCartinfobyId(id) {
+        let a = await axios.get(`http://localhost:4001/cartinfo/`+ id)
+        return a.data;
+    }
+    async getCountProduct(){
+        let a = await axios.get(`http://localhost:4001/product/count`);
+        return a.data;
+    }
+    async getCountCartbyStatus(id) {
+        let a = await axios.get(`http://localhost:4001/cart/status/count/`+id) 
+        return a.data;
     }
 }
