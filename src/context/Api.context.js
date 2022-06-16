@@ -2,30 +2,89 @@ import axios from "axios";
 
 export default class API {
     // no params
-    async getTotalbyMonth(yea,mon) {
-        let a = await axios.get(`http://localhost:4001/salesstatus/total/`+yea+`/`+mon) 
+    async createProduct(name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma ) {
+        let a = await axios.post(`http://localhost:4001/product/create`,{
+            product_name: name,
+            product_price: price,
+            description: description,
+            slug: slug,
+            categories: category,
+            color: col,
+            style: sty,
+            detail_info: detail,
+            discount: disc,
+            discount_percent: disc_percent,
+            thumbnail: thumb,
+            classify: clas,
+            listImage: listIma
+        })
+        return a;
+    }
+    async updateProduct(id,name,price,description,slug,category,col,sty,detail,disc,disc_percent,clas ) {
+        let a = await axios.post(`http://localhost:4001/product/update`,{
+            id_product: id,
+            product_name: name,
+            product_price: price,
+            description: description,
+            slug: slug,
+            categories: category,
+            color: col,
+            style: sty,
+            detail_info: detail,
+            discount: disc,
+            discount_percent: disc_percent,
+            classify: clas
+        })
+        return a;
+    }
+    async getTotalbyMonth(year, mon) {
+        let a = await axios.get(`http://localhost:4001/salesstatus/total/` + year + `/` + mon)
         return a.data;
     }
     async getCartbyStatus(id) {
-        let a = await axios.get(`http://localhost:4001/cart/status/`+id) 
+        let a = await axios.get(`http://localhost:4001/cart/status/` + id)
         return a.data;
     }
     async getCartinfobyId(id) {
-        let a = await axios.get(`http://localhost:4001/cartinfo/`+ id)
+        let a = await axios.get(`http://localhost:4001/cartinfo/` + id)
         return a.data;
     }
-    async getCountProduct(){
+    async getCountProduct() {
         let a = await axios.get(`http://localhost:4001/product/count`);
         return a.data;
     }
     async getCountCartbyStatus(id) {
-        let a = await axios.get(`http://localhost:4001/cart/status/count/`+id) 
+        let a = await axios.get(`http://localhost:4001/cart/status/count/` + id)
+        return a.data;
+    }
+    async getTopProduct() {
+        let a = await axios.get(`http://localhost:4001/product/desc`) 
+        return a.data;
+    }
+    async getProduct() {
+        let a = await axios.get(`http://localhost:4001/product`)
+        return a.data;
+    }
+    async getProductbySlug(id) {
+        let a = await axios.get(`http://localhost:4001/product/`+ id)
+        return a.data;
+    }
+    async getUser() {
+        let a = await axios.get(`http://localhost:4001/user`)
+        return a.data;
+    }
+    async getCartbyIDuser(id) {
+        let a = await axios.get(`http://localhost:4001/cart/`+ id)
+        return a.data;
+    }
+    async getCartInfo() {
+        let a = await axios.get(`http://localhost:4001/cartinfo`)
         return a.data;
     }
     cloudinaryUpload = (fileToUpload) => {
         return axios.post('http://localhost:4001/product/cloudinary-upload', fileToUpload)
-        .then(res =>console.log( res.data))
-        .catch(err => console.log(err))
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
     }
-    
+
 }

@@ -7,6 +7,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { faChartArea } from '@fortawesome/free-solid-svg-icons';
 
+import { Link } from 'react-router-dom';
+
 import logo from '../../assets/logo.jpg'
 
 const LeftSideBar = () => {
@@ -19,36 +21,46 @@ const LeftSideBar = () => {
             <div className={style.menu}>
                 <h4>MENU</h4>
                 <ul className={style.menu__list}>
-                    <li className={style.menu__item}>
-                        <div className={style.menu__icon}>
-                            <FontAwesomeIcon icon={faDashboard} />
-                        </div>
-                        <span> Dashboard</span>
-                    </li>
-                    <li className={style.menu__item}>
-                        <div className={style.menu__icon}>
-                            <FontAwesomeIcon icon={faBox} />
-                        </div>
-                        <span>Products</span>
-                    </li>
-                    <li className={style.menu__item}>
-                        <div className={style.menu__icon}>
-                            <FontAwesomeIcon icon={faUser} />
-                        </div>
-                        <span>Customers</span>
-                    </li>
-                    <li className={style.menu__item}>
-                        <div className={style.menu__icon}>
-                            <FontAwesomeIcon icon={faCartShopping} />
-                        </div>
-                        <span>Orders</span>
-                    </li>
-                    <li className={style.menu__item}>
-                        <div className={style.menu__icon}>
-                            <FontAwesomeIcon icon={faChartArea} />
-                        </div>
-                        <span>Analytics</span>
-                    </li>
+                    <Link to={'/'} style={{ textDecoration: 'none' }}>
+                        <li className={style.menu__item}>
+                            <div className={style.menu__icon}>
+                                <FontAwesomeIcon icon={faDashboard} />
+                            </div>
+                            <span> Dashboard</span>
+                        </li>
+                    </Link>
+                    <Link to={'/products'} style={{ textDecoration: 'none' }}>
+                        <li className={style.menu__item}>
+                            <div className={style.menu__icon}>
+                                <FontAwesomeIcon icon={faBox} />
+                            </div>
+                            <span>Products</span>
+                        </li>
+                    </Link>
+                    <Link to={'/customers'} style={{ textDecoration: 'none' }}>
+                        <li className={style.menu__item}>
+                            <div className={style.menu__icon}>
+                                <FontAwesomeIcon icon={faUser} />
+                            </div>
+                            <span>Customers</span>
+                        </li>
+                    </Link>
+                    <Link to={'/orders'} style={{ textDecoration: 'none' }}>
+                        <li className={style.menu__item}>
+                            <div className={style.menu__icon}>
+                                <FontAwesomeIcon icon={faCartShopping} />
+                            </div>
+                            <span>Orders</span>
+                        </li>
+                    </Link>
+                    <Link to={'/'} style={{ textDecoration: 'none' }}>
+                        <li className={style.menu__item}>
+                            <div className={style.menu__icon}>
+                                <FontAwesomeIcon icon={faChartArea} />
+                            </div>
+                            <span>Analytics</span>
+                        </li>
+                    </Link>
                 </ul>
             </div>
         </div>
