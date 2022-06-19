@@ -2,8 +2,16 @@ import axios from "axios";
 
 export default class API {
     // no params
-    async createProduct(name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma ) {
+    async createProduct(name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma,size ) {
+        let listsize = [];
+        let sitenumber = Number(size);
+        listsize.push(size.toString());
+        listsize.push((sitenumber+1).toString());
+        listsize.push((sitenumber+2).toString());
+        listsize.push((sitenumber+3).toString());
+        listsize.push((sitenumber+4).toString());
         let a = await axios.post(`http://localhost:4001/product/create`,{
+            id_product: 0,
             product_name: name,
             product_price: price,
             description: description,
@@ -16,7 +24,9 @@ export default class API {
             discount_percent: disc_percent,
             thumbnail: thumb,
             classify: clas,
-            listImage: listIma
+            listImage: listIma,
+            size: listsize,
+            sold_quantity: 0
         })
         return a;
     }
