@@ -53,6 +53,7 @@ const Product = () => {
                 setDiscountPercent(res.data.discount_percent)
                 setDescription(res.data.description || '')
                 setDetailDescription(res.data.detail_info || '')
+                setStatus(res.data.status || '')
                 // setProduct(res.data)
                 console.log(res.data)
             })

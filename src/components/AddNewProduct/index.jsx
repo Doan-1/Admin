@@ -20,6 +20,18 @@ const AddNewProduct = () => {
 
     // createProduct(name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma ) 
     const handleUpdateProduct = () => {
+        setName('')
+        setPrice('')
+        setSlug('')
+        setCategory('')
+        setClassify('')
+        setColor('')
+        setStyle('')
+        setDiscount('')
+        setDiscountPercent('')
+        setThumbnail('')
+        setDescription('')
+        setDetailDescription('')
         api.createProduct(name, price, description, slug, category, color, styles, detailDescription,  discount, discountPercent, thumbnail, classify, []);
         console.log(name, price, description, slug, category, color, styles, detailDescription,  discount, discountPercent, thumbnail, classify, []);
     }
@@ -39,16 +51,16 @@ const AddNewProduct = () => {
                                 <div style={{ "display": "grid", "gridTemplateColumns": "60% 40%" }}>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                         <label htmlFor="" style={{ "fontSize": "14px" }}>Product's name:</label>
-                                        <input type="text" onChange={e => setName(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                        <input type="text" value={name} onChange={e => setName(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                     </div>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                         <label htmlFor="" style={{ "fontSize": "14px" }}>Product's price:</label>
-                                        <input type="text" onChange={e => setPrice(Number(e.target.value))} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                        <input type="text" value={price} onChange={e => setPrice(Number(e.target.value))} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                     </div>
                                 </div>
                                 <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                     <label htmlFor="" style={{ "fontSize": "14px" }}>Slug:</label>
-                                    <input type="text" onChange={e => setSlug(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                    <input type="text" value={slug} onChange={e => setSlug(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                 </div>
                                 <div style={{ "display": "grid", "gridTemplateColumns": "50% 50%" }}>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
@@ -64,17 +76,17 @@ const AddNewProduct = () => {
                                     </div>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                         <label htmlFor="" style={{ "fontSize": "14px" }}>Classify:</label>
-                                        <input type="text" onChange={e => setClassify(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                        <input value={classify} type="text" onChange={e => setClassify(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                     </div>
                                 </div>
                                 <div style={{ "display": "grid", "gridTemplateColumns": "50% 50%" }}>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                         <label htmlFor="" style={{ "fontSize": "14px" }}>Colors:</label>
-                                        <input type="text" onChange={e => setColor(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                        <input type="text" value={color} onChange={e => setColor(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                     </div>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                         <label htmlFor="" style={{ "fontSize": "14px" }}>Style:</label>
-                                        <input type="text" onChange={e => setStyle(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                        <input type="text" value={styles} onChange={e => setStyle(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                     </div>
                                 </div>
                                 <div style={{ "display": "grid", "gridTemplateColumns": "50% 50%" }}>
@@ -88,7 +100,7 @@ const AddNewProduct = () => {
                                     </div>
                                     <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                         <label htmlFor="" style={{ "fontSize": "14px" }}>Discount percents:</label>
-                                        <input type="text" onChange={e => setDiscountPercent(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                        <input type="text" value={discountPercent} onChange={e => setDiscountPercent(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                     </div>
                                 </div>
                                 <input
@@ -97,15 +109,15 @@ const AddNewProduct = () => {
                                 />
                                 <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                     <label htmlFor="" style={{ "fontSize": "14px" }}>Thumbnail:</label>
-                                    <input type="text" onChange={e => setThumbnail(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
+                                    <input type="text" value={thumbnail} onChange={e => setThumbnail(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
                                 </div>
                                 <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                     <label htmlFor="" style={{ "fontSize": "14px" }}>Description:</label>
-                                    <textarea onChange={e => setDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
+                                    <textarea value={description} onChange={e => setDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
                                 </div>
                                 <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                     <label htmlFor="" style={{ "fontSize": "14px" }}>Detail information:</label>
-                                    <textarea onChange={e => setDetailDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
+                                    <textarea value={detailDescription} onChange={e => setDetailDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
                                 </div>
 
                             </div>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import API from "../context/Api.context";
+import CustomerOrder from "../components/CustomerOrder";
 
 
 const api = new API();
@@ -11,21 +12,22 @@ const Customer = () => {
     const [showCartInfo, setShowCartInfo] = useState(false)
     const [customers, setCustomers] = useState([])
     const [orders, setOrders] = useState([])
-    const handleShowInfo = (id) => {
-        setShowCartInfo(!showCartInfo)
-        if (!showCartInfo) {
-            api.getCartbyIDuser(id).then(res => {
-                console.log(res.data)
-                setOrders(res.data)
-            })
-        }
-    }
+
 
     useEffect(() => {
         api.getUser().then(res => {
             setCustomers(res.data)
         })
     })
+    const handleShowInfo = (id) => {
+        setShowCartInfo(!showCartInfo)
+        if (! showCartInfo) {
+            api.getCartbyIDuser(id).then(res => {
+                setOrders(res.data)
+            })
+        }
+    }
+
 
     return (
         <div className="main">
@@ -87,21 +89,22 @@ const Customer = () => {
                                         {
                                             orders.map((order, index) => {
                                                 return (
-                                                    <tr key={index}>
-                                                        <td>{order.id_cart}</td>
-                                                        <td>{order.total}</td>
-                                                        <td>{order.phone}</td>
-                                                        <td>{order.address}</td>
-                                                        <td>
-                                                            <select value={order.status} style={{"width": "100%", "height": "100%", "flex": "1", "fontSize": "14px", "outline": "none", "border": "none"}}>
-                                                                <option value="da nhan don hang">Đã nhận đơn hàng</option>
-                                                                <option value="da giao hang">Đã giao hàng</option>
-                                                            </select>
-                                                        </td>
-                                                        {/* <td>
-                                                            <FontAwesomeIcon icon={faPencilSquare} style={{ fontSize: '12px', color: '#4682B4', cursor: 'pointer' }} />
-                                                        </td> */}
-                                                    </tr>
+                                                    <CustomerOrder pros={{ order, index }} />
+                                                    // <tr key={index}>
+                                                    //     <td>{order.id_cart}</td>
+                                                    //     <td>{order.total}</td>
+                                                    //     <td>{order.phone}</td>
+                                                    //     <td>{order.address}</td>
+                                                    //     <td>
+                                                    //         <select value={order.status} style={{"width": "100%", "height": "100%", "flex": "1", "fontSize": "14px", "outline": "none", "border": "none"}}>
+                                                    //             <option value="da nhan don hang">Đã nhận đơn hàng</option>
+                                                    //             <option value="da giao hang">Đã giao hàng</option>
+                                                    //         </select>
+                                                    //     </td>
+                                                    //     {/* <td>
+                                                    //         <FontAwesomeIcon icon={faPencilSquare} style={{ fontSize: '12px', color: '#4682B4', cursor: 'pointer' }} />
+                                                    //     </td> */}
+                                                    // </tr>
                                                 )
                                             })
                                         }

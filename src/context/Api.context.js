@@ -2,8 +2,8 @@ import axios from "axios";
 
 export default class API {
     // no params
-    async createProduct(name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma ) {
-        let a = await axios.post(`http://localhost:4001/product/create`,{
+    async createProduct(name, price, description, slug, category, col, sty, detail, disc, disc_percent, thumb, clas, listIma) {
+        let a = await axios.post(`http://localhost:4001/product/create`, {
             product_name: name,
             product_price: price,
             description: description,
@@ -20,8 +20,8 @@ export default class API {
         })
         return a;
     }
-    async updateProduct(id,name,price,description,slug,category,col,sty,detail,disc,disc_percent,clas ) {
-        let a = await axios.post(`http://localhost:4001/product/update`,{
+    async updateProduct(id, name, price, description, slug, category, col, sty, detail, disc, disc_percent, clas) {
+        let a = await axios.post(`http://localhost:4001/product/update`, {
             id_product: id,
             product_name: name,
             product_price: price,
@@ -34,6 +34,20 @@ export default class API {
             discount: disc,
             discount_percent: disc_percent,
             classify: clas
+        })
+        return a;
+    }
+    async updateCartStatus(id, stat) {
+        let a = await axios.post(`http://localhost:4001/cart/updatestatus`, {
+            id_cart: id,
+            status: stat
+        })
+        return a;
+    }
+    async updateProductStatus(id, stat) {
+        let a = await axios.post(`http://localhost:4001/product/updatestatus`, {
+            id_product: id,
+            status: stat
         })
         return a;
     }
@@ -58,7 +72,7 @@ export default class API {
         return a.data;
     }
     async getTopProduct() {
-        let a = await axios.get(`http://localhost:4001/product/desc`) 
+        let a = await axios.get(`http://localhost:4001/product/desc`)
         return a.data;
     }
     async getProduct() {
@@ -66,7 +80,7 @@ export default class API {
         return a.data;
     }
     async getProductbySlug(id) {
-        let a = await axios.get(`http://localhost:4001/product/`+ id)
+        let a = await axios.get(`http://localhost:4001/product/` + id)
         return a.data;
     }
     async getUser() {
@@ -74,7 +88,7 @@ export default class API {
         return a.data;
     }
     async getCartbyIDuser(id) {
-        let a = await axios.get(`http://localhost:4001/cart/`+ id)
+        let a = await axios.get(`http://localhost:4001/cart/` + id)
         return a.data;
     }
     async getCartInfo() {
