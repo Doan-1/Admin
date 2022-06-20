@@ -2,15 +2,15 @@ import axios from "axios";
 
 export default class API {
     // no params
-    async createProduct(name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma,size ) {
+    async createProduct(name, price, description, slug, category, col, sty, detail, disc, disc_percent, thumb, clas, listIma, size) {
         let listsize = [];
         let sitenumber = Number(size);
         listsize.push(size.toString());
-        listsize.push((sitenumber+1).toString());
-        listsize.push((sitenumber+2).toString());
-        listsize.push((sitenumber+3).toString());
-        listsize.push((sitenumber+4).toString());
-        let a = await axios.post(`http://localhost:4001/product/create`,{
+        listsize.push((sitenumber + 1).toString());
+        listsize.push((sitenumber + 2).toString());
+        listsize.push((sitenumber + 3).toString());
+        listsize.push((sitenumber + 4).toString());
+        let a = await axios.post(`http://localhost:4001/product/create`, {
             id_product: 0,
             product_name: name,
             product_price: price,
@@ -107,7 +107,17 @@ export default class API {
     }
     cloudinaryUpload = (fileToUpload) => {
         return axios.post('http://localhost:4001/product/cloudinary-upload', fileToUpload)
-            .then(res => console.log(res.data))
+            .then(res => {
+                var a = localStorage.getItem('url');
+                let jsonStorage = '';
+                if (a === '') {
+                    jsonStorage = res.data.secure_url;
+                }
+                else {
+                    jsonStorage = a + ', ' + res.data.secure_url;
+                }
+                localStorage.setItem('url', jsonStorage)
+            })
             .catch(err => console.log(err))
     }
 

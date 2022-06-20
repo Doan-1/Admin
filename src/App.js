@@ -1,12 +1,13 @@
 import './App.css';
-
+import React from 'react';
+import { useEffect } from 'react';
 import LeftSideBar from './components/LeftSideBar';
 import Dashboard from './pages/Dashboard';
 import Products from './pages/Product';
 import Customer from './pages/Customer';
 import Orders from './pages/Orders';
 import AddNewProduct from './components/AddNewProduct';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
 
 
 const configComponent = (component) => {
@@ -41,6 +42,13 @@ let path = [
   },
 ]
 function App() {
+  const routePath = useLocation();
+  const onTop = () => {
+    window.scrollTo(0, 0);
+  }
+  useEffect(() => {
+    onTop()
+  }, [routePath]);
   return (
     <Routes>
     {

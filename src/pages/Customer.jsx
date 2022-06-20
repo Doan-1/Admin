@@ -18,7 +18,7 @@ const Customer = () => {
         api.getUser().then(res => {
             setCustomers(res.data)
         })
-    })
+    },[window.location.href])
     const handleShowInfo = (id) => {
         setShowCartInfo(!showCartInfo)
         if (! showCartInfo) {
