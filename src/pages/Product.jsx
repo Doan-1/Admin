@@ -196,10 +196,6 @@ const Product = () => {
                                             onChange={(e) => handleFileUpload(e)}
                                         />
                                         <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                            <label htmlFor="" style={{ "fontSize": "14px" }}>Thumbnail:</label>
-                                            <input type="text" value={thumbnail} onChange={e => setThumbnail(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                                        </div>
-                                        <div style={{ "marginBottom": "16px", "display": "flex" }} >
                                             <label htmlFor="" style={{ "fontSize": "14px" }}>Description:</label>
                                             <textarea value={description} onChange={e => setDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
                                         </div>

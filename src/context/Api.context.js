@@ -26,7 +26,8 @@ export default class API {
             classify: clas,
             listImage: listIma,
             size: listsize,
-            sold_quantity: 0
+            sold_quantity: 0,
+            status: "con hang"
         })
         return a;
     }

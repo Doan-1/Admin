@@ -40,6 +40,7 @@ const AddNewProduct = () => {
         api.createProduct(name, price, description, slug, category, color, styles, detailDescription, discount, discountPercent, localStorage.getItem('url').split(', ')[0], classify, localStorage.getItem('url').split(', '), size);
         // console.log(name, price, description, slug, category, color, styles, detailDescription, discount, discountPercent, thumbnail, classify, []);
         localStorage.setItem('url', '')
+        window.location.reload();
     }
     const handleFileUpload = (e) => {
         const uploadData = new FormData();
