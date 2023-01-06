@@ -38,7 +38,7 @@ const Product = () => {
   const [classify, setClassify] = useState("");
   const [color, setColor] = useState("");
   const [styles, setStyle] = useState("");
-  const [discount, setDiscount] = useState("false");
+  const [discount, setDiscount] = useState(false);
   const [discountPercent, setDiscountPercent] = useState("");
   const [listImages, setListImages] = useState([]);
   const [description, setDescription] = useState("");
@@ -83,7 +83,8 @@ const Product = () => {
       discount,
       discountPercent,
       description,
-      detailDescription
+      detailDescription,
+      number
     );
     api.updateProduct(
       id,
@@ -97,16 +98,12 @@ const Product = () => {
       detailDescription,
       discount,
       discountPercent,
-      classify
+      classify,
+      number
     );
-    window.location.reload();
+    // window.location.reload();
   };
 
-  const handleFileUpload = (e) => {
-    const uploadData = new FormData();
-    uploadData.append("file", e.target.files[0], "file");
-    api.cloudinaryUpload(uploadData);
-  };
   const [messageApi, contextHolder] = message.useMessage();
   const error = () => {
     messageApi.open({
@@ -115,40 +112,7 @@ const Product = () => {
       className: "mt-24",
     });
   };
-  // useEffect(() => {
-  //     api.getTotalbyMonth(time.getFullYear(), time.getMonth() + 1).then((data) => {
-  //         console.log(data.data)
-  //     })
-  //     //api.createNewCart('1','1000','1','1');
-  // }, [window.location.href])
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([]);
-  const handleCancel = () => setPreviewOpen(false);
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-    );
-  };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
+
   const columns = [
     {
       title: `Product's ID`,
@@ -361,17 +325,17 @@ const Product = () => {
                     <span>Discount</span>
                     <Select
                       className="mt-4"
-                      defaultValue={discount}
+                      value={discount}
                       onChange={(value) => {
                         setDiscount(value);
                       }}
                       options={[
                         {
-                          value: "true",
+                          value: true,
                           label: "true",
                         },
                         {
-                          value: "false",
+                          value: false,
                           label: "false",
                         },
                       ]}

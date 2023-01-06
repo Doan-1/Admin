@@ -15,15 +15,14 @@ const Customer = () => {
 
   useEffect(() => {
     api.getUser().then((res) => {
-      console.log(res.data);
       setCustomers(res.data);
     });
   }, [window.location.href]);
   const handleShowInfo = (id) => {
     setShowCartInfo(!showCartInfo);
+    console.log("test");
     if (!showCartInfo) {
       api.getCartbyIDuser(id).then((res) => {
-        console.log("res.data :>> ", res.data);
         setOrders(res.data);
       });
     }
@@ -59,11 +58,12 @@ const Customer = () => {
     },
     {
       title: `Action`,
-      render: (item) => (
+      dataIndex: "id_user",
+      render: (id_user) => (
         <FontAwesomeIcon
           icon={faPencilSquare}
           style={{ cursor: "pointer" }}
-          onClick={() => handleShowInfo(item.slug)}
+          onClick={() => handleShowInfo(id_user)}
         />
       ),
     },
@@ -72,38 +72,6 @@ const Customer = () => {
     <div className="main">
       <div className="wrapper">
         <h3 className={style.title}>List of customers</h3>
-        {/* <div className="table__products">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Customer's ID</th>
-                                <th>Customer's Name</th>
-                                <th>Phonenumber</th>
-                                <th>Address</th>
-                                <th>Email</th>
-                                <th>Orders</th>
-                            </tr>
-                            {
-                                customers.map((customer, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{customer.id_user}</td>
-                                            <td>{customer.user_name}</td>
-                                            <td>{customer.user_phone}</td>
-                                            <td>{customer.user_address}</td>
-                                            <td>{customer.user_email}</td>
-                                            <td>
-                                                <FontAwesomeIcon icon={faPencilSquare} style={{ cursor: "pointer" }}
-                                                    onClick={() => handleShowInfo(customer.id_user)}
-                                                />
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div> */}
         <div className="px-9 py-6">
           <Table columns={columns} dataSource={customers} />
         </div>
@@ -136,24 +104,7 @@ const Customer = () => {
                       {/* <th></th> */}
                     </tr>
                     {orders.map((order, index) => {
-                      return (
-                        <CustomerOrder pros={{ order, index }} />
-                        // <tr key={index}>
-                        //     <td>{order.id_cart}</td>
-                        //     <td>{order.total}</td>
-                        //     <td>{order.phone}</td>
-                        //     <td>{order.address}</td>
-                        //     <td>
-                        //         <select value={order.status} style={{"width": "100%", "height": "100%", "flex": "1", "fontSize": "14px", "outline": "none", "border": "none"}}>
-                        //             <option value="da nhan don hang">Đã nhận đơn hàng</option>
-                        //             <option value="da giao hang">Đã giao hàng</option>
-                        //         </select>
-                        //     </td>
-                        //     {/* <td>
-                        //         <FontAwesomeIcon icon={faPencilSquare} style={{ fontSize: '12px', color: '#4682B4', cursor: 'pointer' }} />
-                        //     </td> */}
-                        // </tr>
-                      );
+                      return <CustomerOrder pros={{ order, index }} />;
                     })}
                   </tbody>
                 </table>
