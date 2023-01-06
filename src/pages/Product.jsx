@@ -8,17 +8,7 @@ import API from "../context/Api.context";
 import { Link } from "react-router-dom";
 import ProductItem from "../components/ProductItem";
 import { PlusOutlined } from "@ant-design/icons";
-import {
-  Space,
-  Table,
-  Select,
-  Input,
-  Row,
-  Col,
-  message,
-  Modal,
-  Upload,
-} from "antd";
+import { Table, Select, Input, Row, Col, message, Image, Tag } from "antd";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -41,6 +31,7 @@ const Product = () => {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [number, setNumber] = useState(0);
   const [slug, setSlug] = useState("");
   const [instock, setInStock] = useState(1);
   const [category, setCategory] = useState("");
@@ -49,7 +40,7 @@ const Product = () => {
   const [styles, setStyle] = useState("");
   const [discount, setDiscount] = useState("false");
   const [discountPercent, setDiscountPercent] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
+  const [listImages, setListImages] = useState([]);
   const [description, setDescription] = useState("");
   const [detailDescription, setDetailDescription] = useState("");
   const [soldQuantity, setSoldQuantity] = useState("");
@@ -61,12 +52,13 @@ const Product = () => {
         setId(res.data.id_product);
         setName(res.data.product_name);
         setPrice(res.data.product_price);
+        setNumber(res.data.quantity);
         setSlug(res.data.slug);
         setCategory(res.data.categories);
         setClassify(res.data.classify);
         setColor(res.data.color);
         setStyle(res.data.style);
-        setThumbnail(res.data.thumbnail);
+        setListImages(res.data.listImage);
         setDiscount(res.data.discount);
         setDiscountPercent(res.data.discount_percent);
         setDescription(res.data.description || "");
@@ -184,29 +176,18 @@ const Product = () => {
     },
     {
       title: `Status`,
-      //   dataIndex: "operation",
-      render: (item) => (
-        <Space size="middle">
-          <Select
-            defaultValue={item.status}
-            style={{ width: 120 }}
-            onChange={(value) => {
-              api.updateProductStatus(item, value);
-              console.log("value :>> ", item);
-            }}
-            options={[
-              {
-                value: "con hang",
-                label: "Còn hàng",
-              },
-              {
-                value: "het hang",
-                label: "Hết hàng",
-              },
-            ]}
-          ></Select>
-        </Space>
-      ),
+      key: "status",
+      dataIndex: "status",
+      render: (status) => {
+        let color = status === "con hang" ? "geekblue" : "green";
+        return (
+          <span>
+            <Tag color={color} key={status}>
+              {status.toUpperCase()}
+            </Tag>
+          </span>
+        );
+      },
     },
     {
       title: `Action`,
@@ -240,27 +221,6 @@ const Product = () => {
         <div className="px-9 py-6">
           <Table columns={columns} dataSource={products} />
         </div>
-        {/* <div className="table__products">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Product's ID</th>
-                                <th>Product's Name</th>
-                                <th>Product's Price</th>
-                                <th>Stocks</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                            {
-                                products.map((product, index) => {
-                                    return (
-                                        <ProductItem pros={{product, id, setId, name, setName, price, setPrice, slug, setSlug, soldQuantity, setSoldQuantity, status, setStatus, handleShowInfo}} />
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div> */}
         {showCartInfo && (
           <div className={style.list__product}>
             <div className={style.product__list}>
@@ -304,7 +264,18 @@ const Product = () => {
                   </Col>
                 </Row>
                 <Row className="grid grid-cols-11 gap-2 mb-2">
-                  <Col className="col-start-2 col-span-6">
+                  <Col className="col-start-2 col-span-3">
+                    <span>Number Product</span>
+                    <Input
+                      className="flex-1 mt-4"
+                      value={number}
+                      type="number"
+                      onChange={(e) => {
+                        setNumber(e.target.value);
+                      }}
+                    />
+                  </Col>
+                  <Col className="col-start-5 col-span-6">
                     <span>Slug</span>
                     <Input
                       className="flex-1 mt-4"
@@ -312,17 +283,6 @@ const Product = () => {
                       type="text"
                       onChange={(e) => {
                         setSlug(e.target.value);
-                      }}
-                    />
-                  </Col>
-                  <Col className="col-start-8 col-span-3">
-                    <span>Number Product</span>
-                    <Input
-                      className="flex-1 mt-4"
-                      value={instock}
-                      type="number"
-                      onChange={(e) => {
-                        setInStock(e.target.value);
                       }}
                     />
                   </Col>
@@ -429,31 +389,20 @@ const Product = () => {
                     />
                   </Col>
                 </Row>
-                <Row className="grid grid-cols-11 gap-2 mb-2">
+                <Row className="grid grid-cols-11 gap-2 mb-2 mt-4">
                   <Col className="col-start-2 col-span-9">
-                    <Upload
-                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      listType="picture-card"
-                      fileList={fileList}
-                      onPreview={handlePreview}
-                      onChange={handleChange}
-                    >
-                      {fileList.length >= 6 ? null : uploadButton}
-                    </Upload>
-                    <Modal
-                      open={previewOpen}
-                      title={previewTitle}
-                      footer={null}
-                      onCancel={handleCancel}
-                    >
-                      <img
-                        alt="example"
-                        style={{
-                          width: "100%",
-                        }}
-                        src={previewImage}
-                      />
-                    </Modal>
+                    <Image.PreviewGroup>
+                      {listImages.map((image) => {
+                        return (
+                          <Image
+                            preview={false}
+                            className="px-4"
+                            width={160}
+                            src={image}
+                          />
+                        );
+                      })}
+                    </Image.PreviewGroup>
                   </Col>
                 </Row>
                 <Row className="grid grid-cols-11 gap-2 mb-2">
@@ -481,9 +430,7 @@ const Product = () => {
               </div>
               {contextHolder}
               <div className={style.update__btn}>
-                <button onClick={handleUpdateProduct}>
-                  Create New Product
-                </button>
+                <button onClick={handleUpdateProduct}>Update Product</button>
               </div>
               {/* <h2 style={{ textAlign: "center", margin: "0 0 16px 0" }}>
                 Detail information of product

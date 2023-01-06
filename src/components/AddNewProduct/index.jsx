@@ -2,7 +2,16 @@ import { useState, useEffect } from "react";
 import style from "./AddNewProduct.module.css";
 import API from "../../context/Api.context";
 import { PlusOutlined } from "@ant-design/icons";
-import { Input, Row, Col, message, Select, Modal, Upload } from "antd";
+import {
+  Input,
+  Row,
+  Col,
+  message,
+  Select,
+  Modal,
+  Upload,
+  UploadFile,
+} from "antd";
 
 const api = new API();
 const getBase64 = (file) =>
@@ -16,17 +25,18 @@ const AddNewProduct = () => {
   // let [url, setUrl] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [number, setNumber] = useState(0);
   const [slug, setSlug] = useState("");
   const [category, setCategory] = useState("New-Arrivals");
   const [classify, setClassify] = useState("");
   const [color, setColor] = useState("");
   const [styles, setStyle] = useState("");
   const [discount, setDiscount] = useState("false");
-  const [discountPercent, setDiscountPercent] = useState("");
+  const [discountPercent, setDiscountPercent] = useState(0);
   const [description, setDescription] = useState("");
   const [detailDescription, setDetailDescription] = useState("");
   const [listImg, setListImg] = useState([]);
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState(0);
 
   const [messageApi, contextHolder] = message.useMessage();
   const error = () => {
@@ -45,51 +55,35 @@ const AddNewProduct = () => {
     setClassify("");
     setColor("");
     setStyle("");
-    setDiscount("");
+    setDiscount(0);
     setDiscountPercent("");
     setDescription("");
     setDetailDescription("");
-    setSize("");
+    setSize(0);
     setListImg([]);
+    setNumber(0);
     // name,price,description,slug,category,col,sty,detail,disc,disc_percent,thumb,clas,listIma,size
-    // api.createProduct(
-    //   name,
-    //   price,
-    //   description,
-    //   slug,
-    //   category,
-    //   color,
-    //   styles,
-    //   detailDescription,
-    //   discount,
-    //   discountPercent,
-    //   localStorage.getItem("url").split(", ")[0],
-    //   classify,
-    //   localStorage.getItem("url").split(", "),
-    //   size
-    // );
+    api.createProduct(
+      name,
+      price,
+      description,
+      slug,
+      category,
+      color,
+      styles,
+      detailDescription,
+      discount,
+      discountPercent,
+      localStorage.getItem("url").split(", ")[0],
+      classify,
+      localStorage.getItem("url").split(", "),
+      size,
+      number
+    );
     // console.log(name, price, description, slug, category, color, styles, detailDescription, discount, discountPercent, thumbnail, classify, []);
     localStorage.setItem("url", "");
-    const uploadData = new FormData();
-    fileList.map((file) => {
-      // let a = {
-      //   lastModified: file.lastModified,
-      //   lastModifiedDate: file.lastModifiedDate,
-      //   name: file.name,
-      //   size: file.size,
-      //   type: file.type,
-      //   webkitRelativePath: "",
-      // };
-      console.log(file.blob());
-    });
-    // window.location.reload();
+    setFileList([]);
   };
-
-  // useEffect(() => {
-  //     console.log(localStorage['url'])
-  //     setUrl(localStorage.getItem('url'))
-  // }, [url])
-
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -107,6 +101,13 @@ const AddNewProduct = () => {
   };
   const handleChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+    const uploadData = new FormData();
+    uploadData.append(
+      "file",
+      newFileList[newFileList.length - 1].originFileObj,
+      "file"
+    );
+    api.cloudinaryUpload(uploadData);
   };
   const uploadButton = (
     <div>
@@ -131,89 +132,9 @@ const AddNewProduct = () => {
         className="wrapper"
         style={{ paddingTop: "24px", paddingBottom: "24px" }}
       >
-        {/* <div className={style.list__product}>
-                    <div className={style.product__list}> */}
         <h2 className="text-xl font-bold mb-2 text-center">
           Detail information of product
         </h2>
-        {/* <div className={style.product__item} >
-                    <div className={style.product__info_detail}>
-                        <div style={{ "display": "grid", "gridTemplateColumns": "60% 40%" }}>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Product's name:</label>
-                                <input type="text" value={name} onChange={e => setName(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Product's price:</label>
-                                <input type="text" value={price} onChange={e => setPrice(Number(e.target.value))} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                        </div>
-                        <div style={{ "display": "grid", "gridTemplateColumns": "60% 40%" }}>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Slug:</label>
-                                <input type="text" value={slug} onChange={e => setSlug(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Product's size:</label>
-                                <input type="text" value={size} onChange={e => setSize(Number(e.target.value))} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                        </div>
-                        <div style={{ "display": "grid", "gridTemplateColumns": "50% 50%" }}>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Categories:</label>
-                                <select onChange={e => setCategory(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}>
-                                    <option value={'New-Arrivals'}>New-Arrivals</option>
-                                    <option value={'Women'}>Women</option>
-                                    <option value={'Men'}>Man</option>
-                                    <option value={'Kids'}>Kids</option>
-                                    <option value={'Sales'}>Sales</option>
-                                </select>
-                                <input type="text" placeholder={product.categories} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Classify:</label>
-                                <input value={classify} type="text" onChange={e => setClassify(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                        </div>
-                        <div style={{ "display": "grid", "gridTemplateColumns": "50% 50%" }}>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Colors:</label>
-                                <input type="text" value={color} onChange={e => setColor(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Style:</label>
-                                <input type="text" value={styles} onChange={e => setStyle(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                        </div>
-                        <div style={{ "display": "grid", "gridTemplateColumns": "50% 50%" }}>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Discount:</label>
-                                <select onChange={e => setDiscount(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}>
-                                    <option value={true}>True</option>
-                                    <option value={false}>False</option>
-                                </select>
-                                <input type="selector" placeholder={product.discount} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                            <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                                <label htmlFor="" style={{ "fontSize": "14px" }}>Discount percents:</label>
-                                <input type="text" value={discountPercent} onChange={e => setDiscountPercent(e.target.value)} style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }} />
-                            </div>
-                        </div>
-                        <input
-                            type="file"
-                            onChange={(e) => handleFileUpload(e)}
-                        />
-                        <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                            <label htmlFor="" style={{ "fontSize": "14px" }}>Description:</label>
-                            <textarea value={description} onChange={e => setDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
-                        </div>
-                        <div style={{ "marginBottom": "16px", "display": "flex" }} >
-                            <label htmlFor="" style={{ "fontSize": "14px" }}>Detail information:</label>
-                            <textarea value={detailDescription} onChange={e => setDetailDescription(e.target.value)} name="" id="" cols="100" rows="3" style={{ "margin": "0 16px", "flex": "1", "fontSize": "14px", "outline": "none" }}></textarea>
-                        </div>
-
-                    </div>
-                </div> */}
         <div layout="horizontal">
           <Row className="grid grid-cols-11 gap-2 mb-2">
             <Col className="col-start-2 col-span-6">
@@ -240,7 +161,18 @@ const AddNewProduct = () => {
             </Col>
           </Row>
           <Row className="grid grid-cols-11 gap-2 mb-2">
-            <Col className="col-start-2 col-span-6">
+            <Col className="col-start-2 col-span-2">
+              <span>Number Product</span>
+              <Input
+                className="flex-1 mt-4"
+                value={number}
+                type="number"
+                onChange={(e) => {
+                  setNumber(e.target.value);
+                }}
+              />
+            </Col>
+            <Col className="col-start-4 col-span-5">
               <span>Slug</span>
               <Input
                 className="flex-1 mt-4"
@@ -251,7 +183,7 @@ const AddNewProduct = () => {
                 }}
               />
             </Col>
-            <Col className="col-start-8 col-span-3">
+            <Col className="col-start-9 col-span-2">
               <span>Product Size</span>
               <Input
                 className="flex-1 mt-4"
@@ -373,6 +305,7 @@ const AddNewProduct = () => {
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
+                beforeUpload={() => false}
               >
                 {fileList.length >= 6 ? null : uploadButton}
               </Upload>

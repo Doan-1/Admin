@@ -8,10 +8,10 @@
 }
 .logo{
     padding: 0 60px;
-    text-align: start;
-    /* display: flex;
+    display: flex;
     flex-direction: row;
-    align-items: center; */
+    align-items: center;
+    justify-content: center;
 }
 .logo h2{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -20,13 +20,6 @@
     line-height: 18px;
     letter-spacing: -1.5px;
     color: #4682B4;
-}
-.menu h4{
-    font-size: 16px;
-    font-weight: 600;
-    color: #54616C;
-    padding: 0 60px;
-    text-align: start;
 }
 .menu__list{
     padding: 0 36px;
