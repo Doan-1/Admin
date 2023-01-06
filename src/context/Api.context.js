@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class API {
     // no params
-    async createProduct(name, price, description, slug, category, col, sty, detail, disc, disc_percent, thumb, clas, listIma, size) {
+    async createProduct(name, price, description, slug, category, col, sty, detail, disc, disc_percent, thumb, clas, listIma, size, quantity) {
         let listsize = [];
         let sitenumber = Number(size);
         listsize.push(size.toString());
@@ -27,7 +27,8 @@ export default class API {
             listImage: listIma,
             size: listsize,
             sold_quantity: 0,
-            status: "con hang"
+            status: "con hang",
+            quantity: quantity
         })
         return a;
     }
